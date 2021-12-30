@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/space_background">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layoutDescription="@xml/motion_scene">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/wiki_button"
+                style="@style/wiki_button_style"
+                app:layout_constraintBottom_toBottomOf="@+id/input_layout_wiki"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/input_layout_wiki"
+                app:srcCompat="@drawable/ic_wikipedia" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_wiki"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_wiki"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
+                app:endIconCheckable="true"
+                app:endIconMode="custom"
+                app:errorTextColor="@color/white"
+                app:helperText="@string/wiki_helper_text"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/picture_of_the_day_view"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/white"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_title"
+                style="@style/text_view_tittle_style"
+                android:paddingBottom="15dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/picture_of_the_day_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_layout_wiki" />
+
+
+            <com.example.spacetrucking.ui.view.EquilateralImageView
+                android:id="@+id/picture_of_the_day_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/photo_of_the_day_stub"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_layout_wiki"
+                app:srcCompat="@drawable/ic_no_photo_vector" />
+
+            <include layout="@layout/explanation_text_deskription" />
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="#01579b"
+        app:hideOnScroll="true"
+        app:itemIconTint="@color/selector_bnv"
+        app:itemTextColor="@color/selector_bnv"
+        app:labelVisibilityMode="labeled"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:menu="@menu/main_menu" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

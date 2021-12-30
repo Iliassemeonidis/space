@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="text_view_description_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:hyphenationFrequency">normal</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_view_tittle_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="wiki_button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/app_bar_api"
+        android:icon="@drawable/alien"
+        android:enabled="true"
+        android:title="НЛО" />
+
+    <item
+        android:id="@+id/app_bar_fav"
+        android:icon="@drawable/space"
+        android:enabled="true"
+        android:iconTint="@color/white"
+        android:title="лунаход"
+      />
+
+    <item
+        android:id="@+id/app_bar_settings"
+        android:icon="@drawable/rocket"
+        android:enabled="true"
+        android:title="rocket"
+       />
+
+    <item
+        android:id="@+id/item_mars"
+        android:icon="@drawable/mars"
+        android:enabled="true"
+        android:title="@string/mars" />
+
+</menu>
