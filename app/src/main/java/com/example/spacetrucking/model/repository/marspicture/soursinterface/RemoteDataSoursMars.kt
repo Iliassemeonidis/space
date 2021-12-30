@@ -6,7 +6,7 @@ import com.example.spacetrucking.model.repository.marspicture.data.PODServerResp
 import retrofit2.Callback
 
 class RemoteDataSoursMars {
-    fun getData(callback: Callback<List<PODServerResponseMarsData>>) {
+    fun getData(callback: Callback<PODServerResponseMarsData>) {
         getRetrofitMarsImpl().getMarsPicture(BuildConfig.NASA_API_KEY).enqueue(callback)
     }
 }

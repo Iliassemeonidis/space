@@ -56,6 +56,15 @@ class MainFragment : Fragment() {
     }
 
     private fun initBottomNavigation() {
+        /*getMainCommandImpl().getCommandActionLiveData().observe(viewLifecycleOwner) { action ->
+            when (action) {
+                is MainCommandAction.UFO -> bottom_navigation.selectedItemId = R.id.fragment_main_menu_button_application
+                is MainCommandAction.ToVoteTab -> fragmentMainBottomNavigationView.selectedItemId = R.id.fragment_main_menu_button_vote
+                is MainCommandAction.ToFavoriteTab -> fragmentMainBottomNavigationView.selectedItemId = R.id.fragment_main_menu_button_favourite
+                is MainCommandAction.ToHelpTab -> fragmentMainBottomNavigationView.selectedItemId = R.id.fragment_main_menu_button_help
+            }
+        }*/
+
         bottom_navigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.item_mars -> {

@@ -4,6 +4,6 @@ import com.example.spacetrucking.model.repository.marspicture.data.PODServerResp
 
 interface RepositoryMars {
     fun getDataMarsFromServers(
-        callback: retrofit2.Callback<List<PODServerResponseMarsData>>
+        callback: retrofit2.Callback<PODServerResponseMarsData>
     )
 }

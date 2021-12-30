@@ -84,12 +84,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="#01579b"
-        app:hideOnScroll="true"
-        app:itemIconTint="@color/selector_bnv"
-        app:itemTextColor="@color/selector_bnv"
+        app:backgroundTint="@color/colorPrimaryVariant"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:labelVisibilityMode="labeled"
-        app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/main_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

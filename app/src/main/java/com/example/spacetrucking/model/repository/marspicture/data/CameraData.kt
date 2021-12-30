@@ -1,3 +1,5 @@
 package com.example.spacetrucking.model.repository.marspicture.data
 
-data class CameraData(val name:String?,val roverId:String?, val fullName:String?)
+import com.google.gson.annotations.SerializedName
+
+data class CameraData(val name: String?, @field:SerializedName("rover_id") val roverId: String?, val fullName: String?)

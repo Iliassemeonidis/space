@@ -99,6 +99,7 @@
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="labeled"
         app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/main_menu" />
 
 

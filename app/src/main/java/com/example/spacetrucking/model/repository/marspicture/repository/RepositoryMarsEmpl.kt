@@ -6,7 +6,7 @@ import retrofit2.Callback
 
 class RepositoryMarsEmpl(private val remoteDataSource: RemoteDataSoursMars): RepositoryMars {
 
-    override fun getDataMarsFromServers(callback: Callback<List<PODServerResponseMarsData>>) {
+    override fun getDataMarsFromServers(callback: Callback<PODServerResponseMarsData>) {
         remoteDataSource.getData(callback)
     }
 

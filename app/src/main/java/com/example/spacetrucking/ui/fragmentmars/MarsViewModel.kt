@@ -3,52 +3,61 @@ package com.example.spacetrucking.ui.fragmentmars
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.spacetrucking.model.repository.marspicture.StatePictureOfTheMars
 import com.example.spacetrucking.model.repository.marspicture.data.PODServerResponseMarsData
-import com.example.spacetrucking.model.repository.marspicture.PictureOfTheMars
-import com.example.spacetrucking.model.repository.marspicture.soursinterface.RemoteDataSoursMars
 import com.example.spacetrucking.model.repository.marspicture.repository.RepositoryMarsEmpl
+import com.example.spacetrucking.model.repository.marspicture.soursinterface.RemoteDataSoursMars
 import retrofit2.Call
 import retrofit2.Response
 
-class MarsViewModel(private val liveDataForViewToObserve: MutableLiveData<PictureOfTheMars> =
-                           MutableLiveData(),
-                    private val repositoryPicture: RepositoryMarsEmpl = RepositoryMarsEmpl(
-                           RemoteDataSoursMars()
-                       )
+class MarsViewModel(
+    private val _mutableLiveData: MutableLiveData<StatePictureOfTheMars> =
+        MutableLiveData(),
+    private val repositoryPicture: RepositoryMarsEmpl = RepositoryMarsEmpl(
+        RemoteDataSoursMars()
+    )
 ) : ViewModel() {
-    private val callBack = object : retrofit2.Callback<List<PODServerResponseMarsData>> {
+
+
+    private val stateToObserve: LiveData<StatePictureOfTheMars>
+        get() = _mutableLiveData
+
+
+    private val callBack = object : retrofit2.Callback<PODServerResponseMarsData> {
         override fun onResponse(
-            call: Call<List<PODServerResponseMarsData>>,
-            response: Response<List<PODServerResponseMarsData>>
+            call: Call<PODServerResponseMarsData>,
+            response: Response<PODServerResponseMarsData>
         ) {
             if (response.isSuccessful && response.body() != null) {
-                liveDataForViewToObserve.value = PictureOfTheMars.Success(response.body()!!)
+                _mutableLiveData.value = StatePictureOfTheMars.Success(response.body()!!)
             } else {
                 val message = response.message()
 
                 if (message.isNullOrEmpty()) {
-                    liveDataForViewToObserve.value =
-                        PictureOfTheMars.Error(Throwable("Unidentified error"))
+                    _mutableLiveData.value =
+                        StatePictureOfTheMars.Error(Throwable("Unidentified error"))
                 } else {
-                    liveDataForViewToObserve.value =
-                        PictureOfTheMars.Error(Throwable(message))
+                    _mutableLiveData.value =
+                        StatePictureOfTheMars.Error(Throwable(message))
                 }
             }
         }
 
-        override fun onFailure(call: Call<List<PODServerResponseMarsData>>, t: Throwable) {
-            liveDataForViewToObserve.value = PictureOfTheMars.Error(t)
+        override fun onFailure(call: Call<PODServerResponseMarsData>, t: Throwable) {
+            _mutableLiveData.value = StatePictureOfTheMars.Error(t)
         }
-
     }
 
-    fun getData(): LiveData<PictureOfTheMars> {
+    fun subscribeToStateChange(): LiveData<StatePictureOfTheMars> {
+        return stateToObserve
+    }
+
+    fun getData() {
         sendServerRequest()
-        return liveDataForViewToObserve
     }
 
     private fun sendServerRequest() {
-        liveDataForViewToObserve.value = PictureOfTheMars.Loading(2)
+        _mutableLiveData.value = StatePictureOfTheMars.Loading(2)
         repositoryPicture.getDataMarsFromServers(callBack)
     }
 }
