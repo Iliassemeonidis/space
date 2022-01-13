@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/app_bar_api"
-        android:icon="@drawable/alien"
+        android:id="@+id/item_info_main"
+        android:icon="@drawable/telescope"
         android:enabled="true"
-        android:title="НЛО" />
+        android:title="@string/menu_item_info" />
 
     <item
-        android:id="@+id/app_bar_fav"
-        android:icon="@drawable/space"
+        android:id="@+id/item_media"
+        android:icon="@drawable/universe"
         android:enabled="true"
-        android:iconTint="@color/white"
-        android:title="лунаход"
+        android:title="@string/menu_item_media"
       />
 
     <item
-        android:id="@+id/app_bar_settings"
+        android:id="@+id/item_transfer"
         android:icon="@drawable/rocket"
         android:enabled="true"
-        android:title="rocket"
+        android:title="@string/transfer"
        />
 
     <item

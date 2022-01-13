@@ -3,10 +3,10 @@ package com.example.spacetrucking.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.spacetrucking.model.network.PODServerResponseData
-import com.example.spacetrucking.model.network.PictureOfTheDayData
-import com.example.spacetrucking.model.repository.datasource.RemoteDataSource
-import com.example.spacetrucking.model.repository.picture.RepositoryPictureEmpl
+import com.example.spacetrucking.model.main.data.PODServerResponseData
+import com.example.spacetrucking.model.main.data.PictureOfTheDayData
+import com.example.spacetrucking.model.main.datasource.RemoteDataSourceImpl
+import com.example.spacetrucking.model.main.repository.RepositoryPictureEmpl
 import retrofit2.Call
 import retrofit2.Response
 
@@ -14,7 +14,7 @@ class MainViewModel(
     private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayData> =
         MutableLiveData(),
     private val repositoryPicture: RepositoryPictureEmpl = RepositoryPictureEmpl(
-        RemoteDataSource()
+        RemoteDataSourceImpl()
     )
 ) : ViewModel() {
 

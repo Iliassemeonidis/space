@@ -84,4 +84,9 @@ dependencies {
                 //lob
     implementation 'com.airbnb.android:lottie:4.2.2'
 
+    //rounded imageview
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.13.1'
 }

@@ -1,6 +1,7 @@
 package com.example.spacetrucking.ui.main
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.transition.ChangeBounds
@@ -18,9 +19,12 @@ import coil.api.load
 import coil.request.LoadRequestBuilder
 import com.example.spacetrucking.R
 import com.example.spacetrucking.databinding.MainFragmentStartBinding
-import com.example.spacetrucking.model.network.PODServerResponseData
-import com.example.spacetrucking.model.network.PictureOfTheDayData
-import com.example.spacetrucking.ui.fragmentmars.MarsFragment
+import com.example.spacetrucking.model.main.data.PODServerResponseData
+import com.example.spacetrucking.model.main.data.PictureOfTheDayData
+import com.example.spacetrucking.ui.mars.MarsFragment
+import com.example.spacetrucking.ui.media.MediaContainerFragment
+import com.example.spacetrucking.ui.media.MediaFragment
+import com.example.spacetrucking.ui.transfer.TechTransferFragment
 import kotlinx.android.synthetic.main.explanation_text_deskription.*
 import kotlinx.android.synthetic.main.main_fragment_end.*
 
@@ -39,7 +43,6 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         mainFragmentStartBinding = MainFragmentStartBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,23 +61,37 @@ class MainFragment : Fragment() {
     private fun initBottomNavigation() {
         bottom_navigation.setOnItemSelectedListener {
             when (it.itemId) {
+
                 R.id.item_mars -> {
                     openNewFragment(MarsFragment())
                     true
                 }
+                R.id.item_media -> {
+                    openNewFragment(MediaFragment())
+                    true
+                }
+                R.id.item_info_main -> {
+                    openNewFragment(MainFragment())
+                    true
+                }
+
+                R.id.item_transfer -> {
+                    openNewFragment(TechTransferFragment())
+                    true
+                }
+
                 else -> {
                     Toast.makeText(requireContext(), "Item", Toast.LENGTH_SHORT).show()
                     true
                 }
-
-
             }
         }
     }
 
+    //TODO Подумать как решить проблему с добавление уже имеющихся фрагментов
     private fun openNewFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
+            .replace(R.id.frame, fragment)
             .addToBackStack(null)
             .commitAllowingStateLoss()
     }
@@ -129,6 +146,9 @@ class MainFragment : Fragment() {
             text_view_description.text = it
         }
         serverResponseData.title.let {
+            text_view_title.typeface =
+                Typeface.createFromAsset(requireActivity().assets, "fonts/AbyssalHorrors1.ttf")
+
             text_view_title.text = it
         }
     }

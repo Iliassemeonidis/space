@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SpaceTrucking">
 
         <activity
-            android:name=".ui.LoadActivity"
+            android:name=".LoadActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

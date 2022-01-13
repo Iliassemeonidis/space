@@ -36,6 +36,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/white"
                 android:hint="@string/search_wiki"
                 app:counterEnabled="true"
@@ -63,30 +64,27 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_view_title"
                 style="@style/text_view_tittle_style"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/picture_of_the_day_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/input_layout_wiki"
-                tools:text="DFSADSaffSFSFSDSFSA FSAFFASF SFASF SFA" />
+                app:layout_constraintTop_toBottomOf="@+id/input_layout_wiki" />
 
-            <com.example.spacetrucking.ui.view.EquilateralImageView
+
+            <com.example.spacetrucking.ui.castom.EquilateralImageView
                 android:id="@+id/picture_of_the_day_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="5dp"
                 android:contentDescription="@string/photo_of_the_day_stub"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_layout_wiki"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_title"
                 app:srcCompat="@drawable/ic_no_photo_vector" />
 
             <include layout="@layout/explanation_text_deskription" />
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -99,7 +97,8 @@
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="labeled"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:menu="@menu/main_menu" />
+        app:menu="@menu/main_menu"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

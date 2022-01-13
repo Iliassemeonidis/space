@@ -1,8 +1,6 @@
 package com.example.spacetrucking.model
 
 import android.app.Application
-import com.example.spacetrucking.model.repository.datasource.PictureOfTheDayAPI
-import com.example.spacetrucking.model.repository.marspicture.soursinterface.MarsPictureAPI
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -21,11 +19,13 @@ class MaterialApplication : Application() {
     companion object {
         private var appInstance: MaterialApplication? = null
         private var retrofit: Retrofit? = null
-        private var retrofitMars: Retrofit? = null
+        private var retrofitImage: Retrofit? = null
 
         private const val baseUrl = "https://api.nasa.gov/"
+        private const val baseUrlImages = "https://images-api.nasa.gov/"
 
-        fun getRetrofitImpl(): PictureOfTheDayAPI {
+
+        fun getRetrofitImpl(): NasaAPI {
             if (retrofit == null) {
                 synchronized(Retrofit::class.java) {
                     if (appInstance == null) throw IllegalStateException("Application is null while creating Retrofit")
@@ -40,15 +40,14 @@ class MaterialApplication : Application() {
                         .build()
                 }
             }
-            return retrofit!!.create(PictureOfTheDayAPI::class.java)
+            return retrofit!!.create(NasaAPI::class.java)
         }
-
-        fun getRetrofitMarsImpl(): MarsPictureAPI {
-            if (retrofitMars == null) {
+        fun getRetrofitImagesImpl(): NasaAPI {
+            if (retrofitImage == null) {
                 synchronized(Retrofit::class.java) {
                     if (appInstance == null) throw IllegalStateException("Application is null while creating Retrofit")
-                    retrofitMars = Retrofit.Builder()
-                        .baseUrl(baseUrl)
+                    retrofitImage = Retrofit.Builder()
+                        .baseUrl(baseUrlImages)
                         .addConverterFactory(
                             GsonConverterFactory.create(
                                 GsonBuilder().setLenient().create()
@@ -58,9 +57,8 @@ class MaterialApplication : Application() {
                         .build()
                 }
             }
-            return retrofitMars!!.create(MarsPictureAPI::class.java)
+            return retrofitImage!!.create(NasaAPI::class.java)
         }
-
 
         private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
             val httpClient = OkHttpClient.Builder()
