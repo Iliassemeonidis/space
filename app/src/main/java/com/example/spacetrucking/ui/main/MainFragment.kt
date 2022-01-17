@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.get
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
@@ -21,7 +21,7 @@ import coil.request.LoadRequestBuilder
 import com.example.spacetrucking.R
 import com.example.spacetrucking.databinding.MainFragmentStartBinding
 import com.example.spacetrucking.model.main.data.PODServerResponseData
-import com.example.spacetrucking.model.main.data.PictureOfTheDayData
+import com.example.spacetrucking.model.main.data.PictureOfTheDayState
 import com.example.spacetrucking.ui.mars.MarsFragment
 import com.example.spacetrucking.ui.media.MediaFragment
 import com.example.spacetrucking.ui.transfer.TechTransferFragment
@@ -59,24 +59,34 @@ class MainFragment : Fragment() {
         initBottomNavigation()
     }
 
+    private var isNewFragment = false
+
+    private fun renderData(tab: Tab, isNewFragment: Boolean) {
+        this.isNewFragment = isNewFragment
+        when (tab) {
+            Tab.INFO -> bottom_navigation.selectedItemId = R.id.item_info_main
+            Tab.MEDIA -> TODO()
+            Tab.TRANSFER -> TODO()
+            Tab.MARS -> TODO()
+        }
+    }
+
+    enum class Tab {
+        INFO, MEDIA, TRANSFER, MARS
+    }
+
     private fun initBottomNavigation() {
-
         arguments?.takeIf { it.containsKey(FLAG) }?.apply {
-     bottom_navigation[0].isFocusable = getBoolean(FLAG)
-
 
             val view: View = bottom_navigation.findViewById(R.id.item_info_main)
             view.performClick()
-         //getBoolean(FLAG)
-
+            //getBoolean(FLAG)
         }
-
-
 
         bottom_navigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.item_mars -> {
-                    openNewFragment(MarsFragment())
+                    if (isNewFragment) openNewFragment(MarsFragment())
                     true
                 }
                 R.id.item_media -> {
@@ -127,16 +137,17 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun renderData(data: PictureOfTheDayData) {
-        when (data) {
-            is PictureOfTheDayData.Success -> {
-                val serverResponseData = data.serverResponseData
+    private fun renderData(state: PictureOfTheDayState) {
+        when (state) {
+            is PictureOfTheDayState.Success -> {
+                val serverResponseData = state.serverResponseData
                 val url = serverResponseData.url
 
                 when {
                     url.isNullOrEmpty() -> {
                         Toast.makeText(requireContext(), "Empty data", Toast.LENGTH_SHORT).show()
-                        picture_of_the_day_view.load(R.drawable.ic_load_error_vector)
+                        picture_of_the_day_view.load(R.drawable.ic_load_error_vector) {
+                        }
                     }
                     else -> {
                         chekResponseUrl(url)
@@ -144,11 +155,11 @@ class MainFragment : Fragment() {
                     }
                 }
             }
-            is PictureOfTheDayData.Loading -> {
+            is PictureOfTheDayState.Loading -> {
                 //TODO Отобразите загрузку //showLoading()
             }
-            is PictureOfTheDayData.Error -> {
-                Toast.makeText(requireContext(), data.error.message, Toast.LENGTH_SHORT).show()
+            is PictureOfTheDayState.Error -> {
+                Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()
                 picture_of_the_day_view.load(R.drawable.ic_load_error_vector)
             }
         }
@@ -210,7 +221,12 @@ class MainFragment : Fragment() {
 
         const val FLAG = "FLAG"
 
+        fun getFragment(): MainFragment {
+            return MainFragment().also {
+                it.arguments = bundleOf().apply {
+                    putBoolean(FLAG, true)
+                }
+            }
+        }
     }
-
-
 }

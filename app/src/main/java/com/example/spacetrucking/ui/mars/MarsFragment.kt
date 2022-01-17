@@ -2,7 +2,6 @@ package com.example.spacetrucking.ui.mars
 
 import android.content.Context
 import android.os.Bundle
-import android.provider.Contacts.SettingsColumns.KEY
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.view.View
@@ -15,10 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.example.spacetrucking.R
-import com.example.spacetrucking.model.mars.state.PictureOfTheMars
 import com.example.spacetrucking.model.mars.data.PhotosData
+import com.example.spacetrucking.model.mars.state.PictureOfTheMars
 import com.example.spacetrucking.ui.main.MainFragment
-import kotlinx.android.synthetic.main.main_fragment_end.*
 import kotlinx.android.synthetic.main.mars_fragment_start.*
 
 class MarsFragment : Fragment(R.layout.mars_fragment_start) {
@@ -28,7 +26,6 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
     }
 
     private var show = false
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,20 +37,16 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val fragment = MainFragment()
 
-        fragment.arguments = bundleOf().apply {
-            putBoolean(MainFragment.FLAG, true)
-        }
         requireActivity().onBackPressedDispatcher.addCallback(
             this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, fragment)
-                        .commitAllowingStateLoss()
+                    /*requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, MainFragment.getFragment())
+                        .commitAllowingStateLoss()*/
 
+                    sharedViewModel.setTab(MainFragment.Tab.INFO)
                 }
-
             }
         )
     }
@@ -66,7 +59,7 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
                 takeComponentsFromData(data)
             }
             is PictureOfTheMars.Loading -> {
-               loading.visibility = View.VISIBLE
+                loading.visibility = View.VISIBLE
             }
             is PictureOfTheMars.Error -> {
                 Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()
@@ -83,7 +76,7 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
             }
 
             else -> {
-                val uri ="https"+data[0].imgSrc?.substringAfter("p")
+                val uri = "https" + data[0].imgSrc?.substringAfter("p")
                 backgroundImage.load(uri) {
                     viewLifecycleOwner
                     error(R.drawable.ic_load_error_vector)

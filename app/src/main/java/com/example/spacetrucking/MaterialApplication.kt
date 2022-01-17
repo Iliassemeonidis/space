@@ -1,6 +1,7 @@
-package com.example.spacetrucking.model
+package com.example.spacetrucking
 
 import android.app.Application
+import com.example.spacetrucking.model.NasaAPI
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -24,7 +25,6 @@ class MaterialApplication : Application() {
         private const val baseUrl = "https://api.nasa.gov/"
         private const val baseUrlImages = "https://images-api.nasa.gov/"
 
-
         fun getRetrofitImpl(): NasaAPI {
             if (retrofit == null) {
                 synchronized(Retrofit::class.java) {
@@ -42,6 +42,7 @@ class MaterialApplication : Application() {
             }
             return retrofit!!.create(NasaAPI::class.java)
         }
+
         fun getRetrofitImagesImpl(): NasaAPI {
             if (retrofitImage == null) {
                 synchronized(Retrofit::class.java) {

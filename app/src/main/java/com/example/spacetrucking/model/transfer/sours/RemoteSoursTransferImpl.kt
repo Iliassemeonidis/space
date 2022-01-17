@@ -1,7 +1,7 @@
 package com.example.spacetrucking.model.transfer.sours
 
 import com.example.spacetrucking.BuildConfig
-import com.example.spacetrucking.model.MaterialApplication.Companion.getRetrofitImpl
+import com.example.spacetrucking.MaterialApplication.Companion.getRetrofitImpl
 import com.example.spacetrucking.model.transfer.data.PODServerResponseTechTransferData
 import retrofit2.Callback
 

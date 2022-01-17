@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.spacetrucking.model.main.data.PODServerResponseData
-import com.example.spacetrucking.model.main.data.PictureOfTheDayData
+import com.example.spacetrucking.model.main.data.PictureOfTheDayState
 import com.example.spacetrucking.model.main.datasource.RemoteDataSourceImpl
 import com.example.spacetrucking.model.main.repository.RepositoryPictureEmpl
 import retrofit2.Call
 import retrofit2.Response
 
 class MainViewModel(
-    private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayData> =
+    private val liveStateForViewToObserve: MutableLiveData<PictureOfTheDayState> =
         MutableLiveData(),
     private val repositoryPicture: RepositoryPictureEmpl = RepositoryPictureEmpl(
         RemoteDataSourceImpl()
@@ -24,33 +24,33 @@ class MainViewModel(
             response: Response<PODServerResponseData>
         ) {
             if (response.isSuccessful && response.body() != null) {
-                liveDataForViewToObserve.value = PictureOfTheDayData.Success(response.body()!!)
+                liveStateForViewToObserve.value = PictureOfTheDayState.Success(response.body()!!)
             } else {
                 val message = response.message()
 
                 if (message.isNullOrEmpty()) {
-                    liveDataForViewToObserve.value =
-                        PictureOfTheDayData.Error(Throwable("Unidentified error"))
+                    liveStateForViewToObserve.value =
+                        PictureOfTheDayState.Error(Throwable("Unidentified error"))
                 } else {
-                    liveDataForViewToObserve.value =
-                        PictureOfTheDayData.Error(Throwable(message))
+                    liveStateForViewToObserve.value =
+                        PictureOfTheDayState.Error(Throwable(message))
                 }
             }
         }
 
         override fun onFailure(call: Call<PODServerResponseData>, t: Throwable) {
-            liveDataForViewToObserve.value = PictureOfTheDayData.Error(t)
+            liveStateForViewToObserve.value = PictureOfTheDayState.Error(t)
         }
 
     }
 
-    fun getData(): LiveData<PictureOfTheDayData> {
+    fun getData(): LiveData<PictureOfTheDayState> {
         sendServerRequest()
-        return liveDataForViewToObserve
+        return liveStateForViewToObserve
     }
 
     private fun sendServerRequest() {
-        liveDataForViewToObserve.value = PictureOfTheDayData.Loading(2)
+        liveStateForViewToObserve.value = PictureOfTheDayState.Loading(2)
         repositoryPicture.getWeatherDataFromServers(callBack)
     }
 
