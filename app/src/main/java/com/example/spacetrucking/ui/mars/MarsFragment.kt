@@ -1,18 +1,23 @@
 package com.example.spacetrucking.ui.mars
 
+import android.content.Context
 import android.os.Bundle
+import android.provider.Contacts.SettingsColumns.KEY
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.example.spacetrucking.R
 import com.example.spacetrucking.model.mars.state.PictureOfTheMars
 import com.example.spacetrucking.model.mars.data.PhotosData
+import com.example.spacetrucking.ui.main.MainFragment
 import kotlinx.android.synthetic.main.main_fragment_end.*
 import kotlinx.android.synthetic.main.mars_fragment_start.*
 
@@ -31,6 +36,26 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
 
         backgroundImage.setOnClickListener { if (show) hideComponents() else showComponents() }
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val fragment = MainFragment()
+
+        fragment.arguments = bundleOf().apply {
+            putBoolean(MainFragment.FLAG, true)
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, fragment)
+                        .commitAllowingStateLoss()
+
+                }
+
+            }
+        )
     }
 
     private fun renderState(state: PictureOfTheMars) {

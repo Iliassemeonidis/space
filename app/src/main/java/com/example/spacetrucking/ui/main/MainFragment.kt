@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
@@ -22,11 +23,11 @@ import com.example.spacetrucking.databinding.MainFragmentStartBinding
 import com.example.spacetrucking.model.main.data.PODServerResponseData
 import com.example.spacetrucking.model.main.data.PictureOfTheDayData
 import com.example.spacetrucking.ui.mars.MarsFragment
-import com.example.spacetrucking.ui.media.MediaContainerFragment
 import com.example.spacetrucking.ui.media.MediaFragment
 import com.example.spacetrucking.ui.transfer.TechTransferFragment
 import kotlinx.android.synthetic.main.explanation_text_deskription.*
 import kotlinx.android.synthetic.main.main_fragment_end.*
+
 
 class MainFragment : Fragment() {
 
@@ -59,18 +60,21 @@ class MainFragment : Fragment() {
     }
 
     private fun initBottomNavigation() {
-        /*getMainCommandImpl().getCommandActionLiveData().observe(viewLifecycleOwner) { action ->
-            when (action) {
-                is MainCommandAction.UFO -> bottom_navigation.selectedItemId = R.id.fragment_main_menu_button_application
-                is MainCommandAction.ToVoteTab -> fragmentMainBottomNavigationView.selectedItemId = R.id.fragment_main_menu_button_vote
-                is MainCommandAction.ToFavoriteTab -> fragmentMainBottomNavigationView.selectedItemId = R.id.fragment_main_menu_button_favourite
-                is MainCommandAction.ToHelpTab -> fragmentMainBottomNavigationView.selectedItemId = R.id.fragment_main_menu_button_help
-            }
-        }*/
+
+        arguments?.takeIf { it.containsKey(FLAG) }?.apply {
+     bottom_navigation[0].isFocusable = getBoolean(FLAG)
+
+
+            val view: View = bottom_navigation.findViewById(R.id.item_info_main)
+            view.performClick()
+         //getBoolean(FLAG)
+
+        }
+
+
 
         bottom_navigation.setOnItemSelectedListener {
             when (it.itemId) {
-
                 R.id.item_mars -> {
                     openNewFragment(MarsFragment())
                     true
@@ -200,5 +204,13 @@ class MainFragment : Fragment() {
             })
         }
     }
+
+
+    companion object {
+
+        const val FLAG = "FLAG"
+
+    }
+
 
 }

@@ -95,7 +95,7 @@
         app:hideOnScroll="true"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:labelVisibilityMode="selected"
+
         app:layout_scrollFlags="scroll|enterAlways"
         app:menu="@menu/main_menu"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
