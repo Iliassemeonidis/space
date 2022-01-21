@@ -6,9 +6,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.spacetrucking.R
 import com.example.spacetrucking.model.media.state.MediaState
+import com.example.spacetrucking.ui.SpaceTab
+import com.example.spacetrucking.ui.container.SharedViewModel
 import com.example.spacetrucking.ui.main.MainFragment
 import kotlinx.android.synthetic.main.fragment_media.*
 
@@ -19,10 +22,12 @@ class MediaFragment : Fragment(R.layout.fragment_media) {
         ViewModelProviders.of(this).get(MediaViewModel::class.java)
     }
     private lateinit var adapter: MediaViewPagerAdapter
-
+    private lateinit var model: SharedViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model =
+            ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         mediaViewModel.subscribeToStateChange().observe(viewLifecycleOwner) { renderState(it) }
         mediaViewModel.getData()
     }
@@ -32,11 +37,10 @@ class MediaFragment : Fragment(R.layout.fragment_media) {
         requireActivity().onBackPressedDispatcher.addCallback(
             this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, MainFragment())
-                        .commitAllowingStateLoss()
+                    // TODO повторяющийся код
+                    requireActivity().supportFragmentManager.popBackStack()
+                    model.setSpaceTab(SpaceTab.INFO)
                 }
-
             }
         )
     }
@@ -58,8 +62,6 @@ class MediaFragment : Fragment(R.layout.fragment_media) {
                 Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()
                 // image_media.load(R.drawable.ic_load_error_vector)
             }
-
         }
     }
-
 }

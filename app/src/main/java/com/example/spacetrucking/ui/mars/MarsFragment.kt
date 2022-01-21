@@ -9,14 +9,15 @@ import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.example.spacetrucking.R
 import com.example.spacetrucking.model.mars.data.PhotosData
 import com.example.spacetrucking.model.mars.state.PictureOfTheMars
-import com.example.spacetrucking.ui.main.MainFragment
+import com.example.spacetrucking.ui.SpaceTab
+import com.example.spacetrucking.ui.container.SharedViewModel
 import kotlinx.android.synthetic.main.mars_fragment_start.*
 
 class MarsFragment : Fragment(R.layout.mars_fragment_start) {
@@ -25,27 +26,25 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
         ViewModelProviders.of(this).get(MarsViewModel::class.java)
     }
 
+    private lateinit var sharedViewModel: SharedViewModel
     private var show = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData().observe(viewLifecycleOwner) { renderState(it) }
-
+        sharedViewModel =
+            ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         backgroundImage.setOnClickListener { if (show) hideComponents() else showComponents() }
-
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         requireActivity().onBackPressedDispatcher.addCallback(
             this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    /*requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, MainFragment.getFragment())
-                        .commitAllowingStateLoss()*/
-
-                    sharedViewModel.setTab(MainFragment.Tab.INFO)
+                    // TODO повторяющийся код
+                    requireActivity().supportFragmentManager.popBackStack()
+                    sharedViewModel.setSpaceTab(SpaceTab.INFO)
                 }
             }
         )
@@ -74,7 +73,6 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
                 Toast.makeText(requireContext(), "Empty data", Toast.LENGTH_SHORT).show()
                 backgroundImage.load(R.drawable.ic_load_error_vector)
             }
-
             else -> {
                 val uri = "https" + data[0].imgSrc?.substringAfter("p")
                 backgroundImage.load(uri) {
@@ -83,12 +81,9 @@ class MarsFragment : Fragment(R.layout.mars_fragment_start) {
                     placeholder(R.drawable.ic_no_photo_vector)
                 }
                 date.text = data[0].earthDate
-
                 title.text = data[0].camera?.fullName ?: "None name"
-
             }
         }
-
     }
 
     private fun showComponents() {

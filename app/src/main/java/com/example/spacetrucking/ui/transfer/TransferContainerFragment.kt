@@ -27,9 +27,7 @@ class TransferContainerFragment : Fragment(R.layout.fragment_transfer_container)
             val dis = Jsoup.parse(dataArg.description).text()
             val title = Jsoup.parse(dataArg.title).text()
 
-
-
-            if (!uri.isNullOrEmpty()) {
+            if (uri.isNotEmpty()) {
                 image_transfer.load(uri) {
                     viewLifecycleOwner
                     error(R.drawable.ic_load_error_vector)
@@ -39,11 +37,9 @@ class TransferContainerFragment : Fragment(R.layout.fragment_transfer_container)
                 println(dis)
                 text_description.text = dis
             }
-
             if (title.isNotEmpty()) {
                 text_title_transfer.text = title
             }
-
         }
     }
 

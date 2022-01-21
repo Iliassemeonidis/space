@@ -20,7 +20,6 @@ class MediaViewModel(
     private val stateToObserve: LiveData<MediaState>
         get() = _liveDataForViewToObserve
 
-
     private val callBack = object : retrofit2.Callback<PODServerResponseMediaData> {
         override fun onResponse(
             call: Call<PODServerResponseMediaData>,
@@ -46,7 +45,7 @@ class MediaViewModel(
         }
     }
 
-    fun subscribeToStateChange (): LiveData<MediaState>{
+    fun subscribeToStateChange(): LiveData<MediaState> {
         return stateToObserve
     }
 
@@ -54,10 +53,8 @@ class MediaViewModel(
         sendServerRequest()
     }
 
-
     private fun sendServerRequest() {
         _liveDataForViewToObserve.value = MediaState.Loading(2)
         repositoryMediaImpl.getMediaFromServer(callBack)
     }
-
 }

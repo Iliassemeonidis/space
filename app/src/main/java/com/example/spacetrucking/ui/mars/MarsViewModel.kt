@@ -4,17 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.spacetrucking.model.mars.data.PODServerResponseMarsData
-import com.example.spacetrucking.model.mars.state.PictureOfTheMars
-import com.example.spacetrucking.model.mars.soursinterface.RemoteDataSoursMarsImpl
 import com.example.spacetrucking.model.mars.repository.RepositoryMarsEmpl
+import com.example.spacetrucking.model.mars.soursinterface.RemoteDataSoursMarsImpl
+import com.example.spacetrucking.model.mars.state.PictureOfTheMars
 import retrofit2.Call
 import retrofit2.Response
 
-class MarsViewModel(private val liveDataForViewToObserve: MutableLiveData<PictureOfTheMars> =
-                           MutableLiveData(),
-                    private val repositoryPicture: RepositoryMarsEmpl = RepositoryMarsEmpl(
-                           RemoteDataSoursMarsImpl()
-                       )
+class MarsViewModel(
+    private val liveDataForViewToObserve: MutableLiveData<PictureOfTheMars> =
+        MutableLiveData(),
+    private val repositoryPicture: RepositoryMarsEmpl = RepositoryMarsEmpl(
+        RemoteDataSoursMarsImpl()
+    )
 ) : ViewModel() {
     private val callBack = object : retrofit2.Callback<PODServerResponseMarsData> {
         override fun onResponse(
@@ -39,7 +40,6 @@ class MarsViewModel(private val liveDataForViewToObserve: MutableLiveData<Pictur
         override fun onFailure(call: Call<PODServerResponseMarsData>, t: Throwable) {
             liveDataForViewToObserve.value = PictureOfTheMars.Error(t)
         }
-
     }
 
     fun getData(): LiveData<PictureOfTheMars> {

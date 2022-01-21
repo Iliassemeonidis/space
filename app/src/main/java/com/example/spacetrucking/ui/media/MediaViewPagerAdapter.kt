@@ -34,6 +34,7 @@ class MediaViewPagerAdapter(
         val uri = listFragment[position]
             //.links?.get(0)?.href
 
+        //TODO  create fun check uri
        // if (!uri.isNullOrBlank()) {
             fragment.arguments = Bundle().apply {
                 putSerializable(IMAGE_KEY, uri)

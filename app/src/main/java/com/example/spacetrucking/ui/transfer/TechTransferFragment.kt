@@ -5,28 +5,27 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.spacetrucking.R
 import com.example.spacetrucking.model.transfer.data.TransferData
 import com.example.spacetrucking.model.transfer.state.TransferState
-import com.example.spacetrucking.ui.main.MainFragment
+import com.example.spacetrucking.ui.SpaceTab
+import com.example.spacetrucking.ui.container.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_tech_transfer.*
-import kotlinx.android.synthetic.main.main_fragment_end.*
-
 
 class TechTransferFragment : Fragment(R.layout.fragment_tech_transfer) {
 
     private val viewModel: TechTransferViewModel by lazy {
         ViewModelProviders.of(this).get(TechTransferViewModel::class.java)
     }
-
     private lateinit var adapter: TransferViewPagerAdapter
-
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         viewModel.subscribeToStateChange().observe(viewLifecycleOwner) { renderToObserve(it) }
         viewModel.getData()
     }
@@ -36,10 +35,9 @@ class TechTransferFragment : Fragment(R.layout.fragment_tech_transfer) {
         requireActivity().onBackPressedDispatcher.addCallback(
             this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, MainFragment())
-                        .commitAllowingStateLoss()
-
+                    // TODO повторяющийся код
+                    requireActivity().supportFragmentManager.popBackStack()
+                    sharedViewModel.setSpaceTab(SpaceTab.INFO)
                 }
             }
         )
@@ -47,7 +45,6 @@ class TechTransferFragment : Fragment(R.layout.fragment_tech_transfer) {
 
     private fun renderToObserve(state: TransferState) {
         when (state) {
-
             is TransferState.Success -> {
                 // Хард код для примера
                 val title = state.serverResponseMarsData.results[0][2]

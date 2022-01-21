@@ -12,7 +12,6 @@ class LoadActivity : AppCompatActivity(R.layout.load_activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewLottieAnimation()
     }
 
@@ -22,7 +21,6 @@ class LoadActivity : AppCompatActivity(R.layout.load_activity) {
             finish()
         }, 3000)
     }
-
 
     override fun onDestroy() {
         handler.removeCallbacksAndMessages(null)

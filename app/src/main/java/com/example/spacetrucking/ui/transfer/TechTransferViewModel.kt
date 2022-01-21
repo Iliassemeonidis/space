@@ -43,7 +43,6 @@ class TechTransferViewModel(
         override fun onFailure(call: Call<PODServerResponseTechTransferData>, t: Throwable) {
             _liveDataForViewToObserve.value = TransferState.Error(Throwable(t))
         }
-
     }
 
     fun subscribeToStateChange(): LiveData<TransferState> {

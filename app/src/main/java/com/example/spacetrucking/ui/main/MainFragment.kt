@@ -28,7 +28,6 @@ import com.example.spacetrucking.ui.transfer.TechTransferFragment
 import kotlinx.android.synthetic.main.explanation_text_deskription.*
 import kotlinx.android.synthetic.main.main_fragment_end.*
 
-
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
@@ -37,7 +36,6 @@ class MainFragment : Fragment() {
     private var isExpanded = false
     private var mainFragmentStartBinding: MainFragmentStartBinding? = null
     private val binding get() = mainFragmentStartBinding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,77 +46,13 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData().observe(viewLifecycleOwner) { renderData(it) }
 
         increaseImage()
         initInoutLayoutWiki()
-
-        initBottomNavigation()
     }
-
-    private var isNewFragment = false
-
-    private fun renderData(tab: Tab, isNewFragment: Boolean) {
-        this.isNewFragment = isNewFragment
-        when (tab) {
-            Tab.INFO -> bottom_navigation.selectedItemId = R.id.item_info_main
-            Tab.MEDIA -> TODO()
-            Tab.TRANSFER -> TODO()
-            Tab.MARS -> TODO()
-        }
-    }
-
-    enum class Tab {
-        INFO, MEDIA, TRANSFER, MARS
-    }
-
-    private fun initBottomNavigation() {
-        arguments?.takeIf { it.containsKey(FLAG) }?.apply {
-
-            val view: View = bottom_navigation.findViewById(R.id.item_info_main)
-            view.performClick()
-            //getBoolean(FLAG)
-        }
-
-        bottom_navigation.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.item_mars -> {
-                    if (isNewFragment) openNewFragment(MarsFragment())
-                    true
-                }
-                R.id.item_media -> {
-                    openNewFragment(MediaFragment())
-                    true
-                }
-                R.id.item_info_main -> {
-                    openNewFragment(MainFragment())
-                    true
-                }
-
-                R.id.item_transfer -> {
-                    openNewFragment(TechTransferFragment())
-                    true
-                }
-
-                else -> {
-                    Toast.makeText(requireContext(), "Item", Toast.LENGTH_SHORT).show()
-                    true
-                }
-            }
-        }
-    }
-
-    //TODO Подумать как решить проблему с добавление уже имеющихся фрагментов
-    private fun openNewFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, fragment)
-            .addToBackStack(null)
-            .commitAllowingStateLoss()
-    }
-
 
     private fun increaseImage() {
         picture_of_the_day_view.setOnClickListener {
@@ -136,13 +70,11 @@ class MainFragment : Fragment() {
         }
     }
 
-
     private fun renderData(state: PictureOfTheDayState) {
         when (state) {
             is PictureOfTheDayState.Success -> {
                 val serverResponseData = state.serverResponseData
                 val url = serverResponseData.url
-
                 when {
                     url.isNullOrEmpty() -> {
                         Toast.makeText(requireContext(), "Empty data", Toast.LENGTH_SHORT).show()
@@ -172,7 +104,6 @@ class MainFragment : Fragment() {
         serverResponseData.title.let {
             text_view_title.typeface =
                 Typeface.createFromAsset(requireActivity().assets, "fonts/AbyssalHorrors1.ttf")
-
             text_view_title.text = it
         }
     }
@@ -180,7 +111,6 @@ class MainFragment : Fragment() {
     private fun chekResponseUrl(url: String) {
         val youtube = "https://www.youtube.com/"
         if (url.contains(youtube)) {
-
             convertVideoInImage(url)
         } else {
             picture_of_the_day_view.load(url) {
@@ -206,27 +136,12 @@ class MainFragment : Fragment() {
         placeholder(R.drawable.ic_no_photo_vector)
     }
 
-
     private fun initInoutLayoutWiki() {
         input_layout_wiki.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data =
                     Uri.parse("https://en.wikipedia.org/wiki/${input_edit_text.text.toString()}")
             })
-        }
-    }
-
-
-    companion object {
-
-        const val FLAG = "FLAG"
-
-        fun getFragment(): MainFragment {
-            return MainFragment().also {
-                it.arguments = bundleOf().apply {
-                    putBoolean(FLAG, true)
-                }
-            }
         }
     }
 }

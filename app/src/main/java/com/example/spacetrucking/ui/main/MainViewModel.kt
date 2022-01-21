@@ -41,7 +41,6 @@ class MainViewModel(
         override fun onFailure(call: Call<PODServerResponseData>, t: Throwable) {
             liveStateForViewToObserve.value = PictureOfTheDayState.Error(t)
         }
-
     }
 
     fun getData(): LiveData<PictureOfTheDayState> {
@@ -53,5 +52,4 @@ class MainViewModel(
         liveStateForViewToObserve.value = PictureOfTheDayState.Loading(2)
         repositoryPicture.getWeatherDataFromServers(callBack)
     }
-
 }
