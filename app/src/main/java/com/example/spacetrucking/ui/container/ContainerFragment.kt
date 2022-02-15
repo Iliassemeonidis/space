@@ -11,6 +11,7 @@ import com.example.spacetrucking.ui.main.MainFragment
 import com.example.spacetrucking.ui.mars.MarsFragment
 import com.example.spacetrucking.ui.media.MediaFragment
 import com.example.spacetrucking.ui.transfer.TechTransferFragment
+import kotlinx.android.synthetic.main.fragment_main_cantainer.*
 import kotlinx.android.synthetic.main.main_fragment_end.*
 
 class ContainerFragment : Fragment(R.layout.fragment_main_cantainer) {

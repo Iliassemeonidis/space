@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
@@ -22,11 +21,12 @@ import com.example.spacetrucking.R
 import com.example.spacetrucking.databinding.MainFragmentStartBinding
 import com.example.spacetrucking.model.main.data.PODServerResponseData
 import com.example.spacetrucking.model.main.data.PictureOfTheDayState
-import com.example.spacetrucking.ui.mars.MarsFragment
-import com.example.spacetrucking.ui.media.MediaFragment
-import com.example.spacetrucking.ui.transfer.TechTransferFragment
 import kotlinx.android.synthetic.main.explanation_text_deskription.*
-import kotlinx.android.synthetic.main.main_fragment_end.*
+import kotlinx.android.synthetic.main.main_fragment_end.input_edit_text
+import kotlinx.android.synthetic.main.main_fragment_end.input_layout_wiki
+import kotlinx.android.synthetic.main.main_fragment_end.main
+import kotlinx.android.synthetic.main.main_fragment_end.picture_of_the_day_view
+import kotlinx.android.synthetic.main.main_fragment_end.text_view_title
 
 class MainFragment : Fragment() {
 
@@ -88,7 +88,6 @@ class MainFragment : Fragment() {
                 }
             }
             is PictureOfTheDayState.Loading -> {
-                //TODO Отобразите загрузку //showLoading()
             }
             is PictureOfTheDayState.Error -> {
                 Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()

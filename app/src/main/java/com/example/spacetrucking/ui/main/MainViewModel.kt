@@ -3,12 +3,12 @@ package com.example.spacetrucking.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.spacetrucking.model.main.data.PODServerResponseData
 import com.example.spacetrucking.model.main.data.PictureOfTheDayState
 import com.example.spacetrucking.model.main.datasource.RemoteDataSourceImpl
 import com.example.spacetrucking.model.main.repository.RepositoryPictureEmpl
-import retrofit2.Call
-import retrofit2.Response
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainViewModel(
     private val liveStateForViewToObserve: MutableLiveData<PictureOfTheDayState> =
@@ -18,30 +18,7 @@ class MainViewModel(
     )
 ) : ViewModel() {
 
-    private val callBack = object : retrofit2.Callback<PODServerResponseData> {
-        override fun onResponse(
-            call: Call<PODServerResponseData>,
-            response: Response<PODServerResponseData>
-        ) {
-            if (response.isSuccessful && response.body() != null) {
-                liveStateForViewToObserve.value = PictureOfTheDayState.Success(response.body()!!)
-            } else {
-                val message = response.message()
-
-                if (message.isNullOrEmpty()) {
-                    liveStateForViewToObserve.value =
-                        PictureOfTheDayState.Error(Throwable("Unidentified error"))
-                } else {
-                    liveStateForViewToObserve.value =
-                        PictureOfTheDayState.Error(Throwable(message))
-                }
-            }
-        }
-
-        override fun onFailure(call: Call<PODServerResponseData>, t: Throwable) {
-            liveStateForViewToObserve.value = PictureOfTheDayState.Error(t)
-        }
-    }
+    private val compositeDisposable = CompositeDisposable()
 
     fun getData(): LiveData<PictureOfTheDayState> {
         sendServerRequest()
@@ -50,6 +27,21 @@ class MainViewModel(
 
     private fun sendServerRequest() {
         liveStateForViewToObserve.value = PictureOfTheDayState.Loading(2)
-        repositoryPicture.getWeatherDataFromServers(callBack)
+
+        compositeDisposable.add(
+            repositoryPicture.getWeatherDataFromServers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    liveStateForViewToObserve.value = PictureOfTheDayState.Success(it)
+                }, {
+                    liveStateForViewToObserve.value = PictureOfTheDayState.Error(it)
+                })
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

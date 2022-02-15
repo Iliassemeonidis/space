@@ -6,7 +6,6 @@ import retrofit2.Callback
 
 class RepositoryMediaImpl(private val remoteDataSoursMediaImpl: RemoteDataSoursMediaImpl) : RepositoryMedia {
 
-    override fun getMediaFromServer(callback: Callback<PODServerResponseMediaData>) {
-        remoteDataSoursMediaImpl.getDataFromNasaMedia(callback)
-    }
+    override fun getMediaFromServer() =  remoteDataSoursMediaImpl.getDataFromNasaMedia()
+
 }

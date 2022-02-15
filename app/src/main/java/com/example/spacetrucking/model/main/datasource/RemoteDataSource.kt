@@ -1,9 +1,8 @@
 package com.example.spacetrucking.model.main.datasource
 
 import com.example.spacetrucking.model.main.data.PODServerResponseData
-import retrofit2.Callback
+import io.reactivex.rxjava3.core.Single
 
 interface RemoteDataSource {
-
-    fun getData(callback: Callback<PODServerResponseData>)
+    fun getData(): Single<PODServerResponseData>
 }

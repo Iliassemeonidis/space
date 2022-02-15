@@ -1,7 +1,8 @@
 package com.example.spacetrucking.model.transfer.repository
 
 import com.example.spacetrucking.model.transfer.data.PODServerResponseTechTransferData
+import io.reactivex.rxjava3.core.Single
 
 interface RepositoryTransfer {
-    fun getMediaFromServer(callback: retrofit2.Callback<PODServerResponseTechTransferData>)
+    fun getMediaFromServer() : Single<PODServerResponseTechTransferData>
 }

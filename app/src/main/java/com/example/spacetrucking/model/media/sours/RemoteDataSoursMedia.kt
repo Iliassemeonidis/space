@@ -1,10 +1,8 @@
 package com.example.spacetrucking.model.media.sours
 
 import com.example.spacetrucking.model.media.data.PODServerResponseMediaData
-import retrofit2.Callback
+import io.reactivex.rxjava3.core.Single
 
-
-interface  RemoteDataSoursMedia {
-
-    fun getDataFromNasaMedia(callback: Callback<PODServerResponseMediaData>)
+interface RemoteDataSoursMedia {
+    fun getDataFromNasaMedia(): Single<PODServerResponseMediaData>
 }

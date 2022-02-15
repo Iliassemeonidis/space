@@ -60,16 +60,19 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //Retrofit - знакомая нам по прошлому курсу библиотека
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     //Kotlin
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'androidx.core:core-ktx:1.1.0'
-//AppCompat
+
+    //AppCompat
     implementation 'androidx.appcompat:appcompat:1.1.0'
-//Lifecycle and ViewModel (архитектурные компоненты)
+
+    //Lifecycle and ViewModel (архитектурные компоненты)
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
+
     //Koil image download (аналог Picasso и Glide, написанный на Kotlin)
     implementation 'io.coil-kt:coil:0.9.2'
 
@@ -81,7 +84,8 @@ dependencies {
 
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-                //lob
+
+    //lob
     implementation 'com.airbnb.android:lottie:4.2.2'
 
     //rounded imageview
@@ -89,4 +93,9 @@ dependencies {
 
     //jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
+
+    // RxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
 }

@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.IOException
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MaterialApplication : Application() {
@@ -31,8 +32,8 @@ class MaterialApplication : Application() {
                     if (appInstance == null) throw IllegalStateException("Application is null while creating Retrofit")
                     retrofit = Retrofit.Builder()
                         .baseUrl(baseUrl)
-                        .addConverterFactory(
-                            GsonConverterFactory.create(
+                        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(
                                 GsonBuilder().setLenient().create()
                             )
                         )
@@ -49,6 +50,7 @@ class MaterialApplication : Application() {
                     if (appInstance == null) throw IllegalStateException("Application is null while creating Retrofit")
                     retrofitImage = Retrofit.Builder()
                         .baseUrl(baseUrlImages)
+                        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                         .addConverterFactory(
                             GsonConverterFactory.create(
                                 GsonBuilder().setLenient().create()
